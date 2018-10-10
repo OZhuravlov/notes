@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {Note} from '../domain/note';
+import {NotesService} from './notes.service';
 
 @Component({
   selector: 'notes',
@@ -12,31 +14,28 @@ export class NotesComponent {
 
   notes: Note[];
 
-  constructor(private httpClient: HttpClient){
+  constructor(private notesService: NotesService){
     this.notes = [];
-    this.getData().subscribe(notes => this.notes = notes);
+    this.notesService.getNotes().subscribe(notes => this.notes = notes);
   }
 
-  ngOnInit(){
+  ngOnInit(){}
 
-  }
-
-  add(){
-    let note = {text: this.text};
-    this.notes.push(note);
+  add(): void {
+    if (!this.text) {
+      return;
+    }
+    let text = this.text;
+    this.notesService.addNote({text} as Note)
+      .subscribe(note => {this.notes.push(note)
+      });
     this.text = "";
   }
   remove(idx: number){
-    this.notes.splice(idx, 1);
-  }
-
-  getData(): Observable<Note[]>{
-    return this.httpClient.get<Note[]>('assets/note-data.json')
+    this.notes = this.notes.filter(n => n !== this.notes[idx]);
+    this.notesService.deleteNote(this.notes[idx]).subscribe();
   }
 
 }
 
-interface Note {
-  text: string;
-}
 
