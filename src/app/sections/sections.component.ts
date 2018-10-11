@@ -10,6 +10,7 @@ import {SectionsService} from './sections.service';
 export class SectionsComponent implements OnInit {
 
   sections: Section[];
+  private activeSection: string;
 
   constructor(private sectionsService: SectionsService) { }
 
@@ -17,7 +18,15 @@ export class SectionsComponent implements OnInit {
   }
 
   readSections(){
-    this.sectionsService.getSections().subscribe(sections => this.sections = sections);
+    this.sectionsService.getSections().subscribe(sections => {
+      this.sections = sections;
+      if (this.activeSection==null && this.sections.length>0){
+        this.showSection(this.sections[0]);
+      }
+    });
   }
 
+  showSection(section: Section) {
+     this.activeSection = section.title;
+  }
 }

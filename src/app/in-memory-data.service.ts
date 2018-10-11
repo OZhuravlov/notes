@@ -1,6 +1,4 @@
 import {InMemoryDbService} from 'angular-in-memory-web-api';
-import {Note} from '../domain/note';
-import {Section} from '../domain/section';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     let notes = [
@@ -18,14 +16,12 @@ export class InMemoryDataService implements InMemoryDbService {
     ];
 
     return {notes, sections};
-  }
-  genId(items: any[]): number {
-    if (typeof items[0] == "Note") {
-
-    }
-    return notes.length > 0 ? Math.max(...notes.map(note => note.id)) + 1 : 11;
-  }
-  genId(sections: Section[]): number {
-    return sections.length > 0 ? Math.max(...sections.map(section => section.id)) + 1 : 11;
-  }
+  // }
+  // genId(items: any[]): number {
+  //   if (items[0].text) {
+  //     return items.length > 0 ? Math.max(...items.map(note => note.id)) + 1 : 11;
+  //   } else {
+  //     return items.length > 0 ? Math.max(...items.map(section => section.id)) + 1 : 11;
+  //   }
+  // }
 }

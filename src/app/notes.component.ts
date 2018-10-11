@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
 import {Note} from '../domain/note';
 import {NotesService} from './notes.service';
 
@@ -19,8 +17,6 @@ export class NotesComponent {
     this.notesService.getNotes().subscribe(notes => this.notes = notes);
   }
 
-  ngOnInit(){}
-
   add(): void {
     if (!this.text) {
       return;
@@ -32,8 +28,9 @@ export class NotesComponent {
     this.text = "";
   }
   remove(idx: number){
+    let note = this.notes[idx];
     this.notes = this.notes.filter(n => n !== this.notes[idx]);
-    this.notesService.deleteNote(this.notes[idx]).subscribe();
+    this.notesService.deleteNote(note).subscribe();
   }
 
 }
